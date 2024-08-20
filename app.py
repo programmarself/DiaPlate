@@ -94,7 +94,7 @@ if st.sidebar.button("Generate Meal Plan"):
             label="📥 Download Meal Plan",
             data=meal_plan,
             file_name=f"{name}_DiaPlate_Meal_Plan.pdf",
-            mime="pdf"
+            mime="application/pdf"
         )
         
         # Suggest physical activities
