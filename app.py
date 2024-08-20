@@ -69,7 +69,7 @@ def generate_pdf(meal_plan, name):
 # Streamlit app configuration
 st.set_page_config(page_title="DiaPlate 🍽️", page_icon="🍽️", layout="centered")
 
-# Initialize session state for form fields
+# Initialize form values
 if 'form_submitted' not in st.session_state:
     st.session_state.form_submitted = False
 
@@ -136,7 +136,6 @@ if st.sidebar.button("Generate Meal Plan"):
         st.write("Regular physical activity is crucial for managing diabetes. Consider incorporating daily walks, yoga, or light resistance training into your routine.")
 
         # Reset form fields after generating the meal plan
-        st.session_state.form_submitted = True
         st.session_state.name = ""
         st.session_state.goal = "Maintain Weight"
         st.session_state.fasting_sugar = 0
@@ -144,4 +143,5 @@ if st.sidebar.button("Generate Meal Plan"):
         st.session_state.post_meal_sugar = 0
         st.session_state.dietary_preferences = ""
         st.session_state.exclusions = ""
+        st.session_state.form_submitted = False
         st.experimental_rerun()
