@@ -18,7 +18,7 @@ def overlay_text_on_image(image_path, text, font_size=50, font_color=(255, 255, 
         font = ImageFont.load_default()
     
     # Calculate the position for the text to be centered
-    text_width, text_height = draw.textsize(text, font=font)
+    text_width, text_height = draw.textbbox((0, 0), text, font=font)[2:]  # Get the width and height from the bounding box
     width, height = image.size
     position = ((width - text_width) // 2, (height - text_height) // 2)
     
