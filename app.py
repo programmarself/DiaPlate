@@ -69,6 +69,10 @@ def generate_pdf(meal_plan, name):
 # Streamlit app configuration
 st.set_page_config(page_title="DiaPlate 🍽️", page_icon="🍽️", layout="centered")
 
+# Initialize session state for form fields
+if 'form_submitted' not in st.session_state:
+    st.session_state.form_submitted = False
+
 # Overlay title on the banner image
 banner_with_title = overlay_text_on_image("diaplate_banner.png", "Welcome to DiaPlate 🍽️", font_size=70)
 st.image(banner_with_title, use_column_width=True)
@@ -83,13 +87,13 @@ Enter your details below to start your journey toward better health! 🌟
 # Sidebar inputs for user details, sugar levels, and dietary preferences
 st.sidebar.header("👤 Personalize Your Plan")
 
-name = st.sidebar.text_input("Your Name")
-goal = st.sidebar.selectbox("Health Goal", options=["Maintain Weight", "Lose Weight", "Gain Weight"])
-fasting_sugar = st.sidebar.number_input("Fasting Sugar Levels (mg/dL)", min_value=0, max_value=500, step=1)
-pre_meal_sugar = st.sidebar.number_input("Pre-Meal Sugar Levels (mg/dL)", min_value=0, max_value=500, step=1)
-post_meal_sugar = st.sidebar.number_input("Post-Meal Sugar Levels (mg/dL)", min_value=0, max_value=500, step=1)
-dietary_preferences = st.sidebar.text_input("Dietary Preferences (e.g., vegetarian, low-carb)")
-exclusions = st.sidebar.text_input("Foods to Avoid (e.g., nuts, dairy)")
+name = st.sidebar.text_input("Your Name", key="name")
+goal = st.sidebar.selectbox("Health Goal", options=["Maintain Weight", "Lose Weight", "Gain Weight"], key="goal")
+fasting_sugar = st.sidebar.number_input("Fasting Sugar Levels (mg/dL)", min_value=0, max_value=500, step=1, key="fasting_sugar")
+pre_meal_sugar = st.sidebar.number_input("Pre-Meal Sugar Levels (mg/dL)", min_value=0, max_value=500, step=1, key="pre_meal_sugar")
+post_meal_sugar = st.sidebar.number_input("Post-Meal Sugar Levels (mg/dL)", min_value=0, max_value=500, step=1, key="post_meal_sugar")
+dietary_preferences = st.sidebar.text_input("Dietary Preferences (e.g., vegetarian, low-carb)", key="dietary_preferences")
+exclusions = st.sidebar.text_input("Foods to Avoid (e.g., nuts, dairy)", key="exclusions")
 
 # Display a pie chart for dietary preferences
 if dietary_preferences:
@@ -131,5 +135,13 @@ if st.sidebar.button("Generate Meal Plan"):
         st.write("🔄 **Suggested Physical Activities**")
         st.write("Regular physical activity is crucial for managing diabetes. Consider incorporating daily walks, yoga, or light resistance training into your routine.")
 
-        # Clear the input fields after generating the meal plan
+        # Reset form fields after generating the meal plan
+        st.session_state.form_submitted = True
+        st.session_state.name = ""
+        st.session_state.goal = "Maintain Weight"
+        st.session_state.fasting_sugar = 0
+        st.session_state.pre_meal_sugar = 0
+        st.session_state.post_meal_sugar = 0
+        st.session_state.dietary_preferences = ""
+        st.session_state.exclusions = ""
         st.experimental_rerun()
