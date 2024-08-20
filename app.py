@@ -2,6 +2,8 @@ import streamlit as st
 import anthropic
 from PIL import Image
 import matplotlib.pyplot as plt
+from fpdf import FPDF
+
 
 api_key = st.secrets["api_key"]
 
