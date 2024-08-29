@@ -66,6 +66,7 @@ banner = Image.open("diaplate_banner.png")
 st.image(banner, use_column_width=True)
 
 st.title("Welcome to DiaPlate 🍽️")
+st.text("Developed By : Irfan Ullah Khan")
 
 st.write("""
 **Your Personalized Meal Planning Companion** - Designed for managing diabetes with tailored meal plans that align with your lifestyle and health goals.
