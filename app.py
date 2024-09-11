@@ -4,7 +4,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from fpdf import FPDF
 
-api_key = st.secrets["api_key"]
+api_key = ["api_key"]
 
 # Function to call Claude AI API and get a personalized meal plan
 def get_meal_plan(api_key, name, fasting_sugar, pre_meal_sugar, post_meal_sugar, dietary_preferences, goal, exclusions):
