@@ -1,42 +1,24 @@
 import streamlit as st
-import anthropic
 from PIL import Image
 import matplotlib.pyplot as plt
 from fpdf import FPDF
 
-api_key = ["api_key"]
+# Temporarily disable API key usage
+# api_key = st.secrets["claude_ai"]["api_key"]
 
-# Function to call Claude AI API and get a personalized meal plan
-def get_meal_plan(api_key, name, fasting_sugar, pre_meal_sugar, post_meal_sugar, dietary_preferences, goal, exclusions):
-    # Initialize the Claude AI client with the provided API key
-    client = anthropic.Anthropic(api_key=api_key)
-    
-    # Define the prompt to send to Claude AI
-    prompt = (
-        f"My name is {name}. My goal is {goal}. My fasting sugar level is {fasting_sugar} mg/dL, "
-        f"my pre-meal sugar level is {pre_meal_sugar} mg/dL, and my post-meal sugar level is {post_meal_sugar} mg/dL. "
-        f"My dietary preferences are {dietary_preferences}, and I want to avoid {exclusions}. "
-        "Please provide a personalized meal plan that can help me manage my blood sugar levels effectively, "
-        "along with any additional tips or exercises that could support my goal."
+# Mock function to simulate meal plan generation
+def get_meal_plan(name, fasting_sugar, pre_meal_sugar, post_meal_sugar, dietary_preferences, goal, exclusions):
+    # This function will return a placeholder meal plan since the API call is disabled
+    return (
+        f"Hi {name}, here is a mock meal plan for you based on your input:\n\n"
+        f"Fasting Sugar: {fasting_sugar} mg/dL\n"
+        f"Pre-Meal Sugar: {pre_meal_sugar} mg/dL\n"
+        f"Post-Meal Sugar: {post_meal_sugar} mg/dL\n"
+        f"Dietary Preferences: {dietary_preferences}\n"
+        f"Foods to Avoid: {exclusions}\n\n"
+        f"Your goal is {goal}, so we suggest maintaining a balanced diet rich in vegetables, whole grains, and lean proteins. "
+        f"Stay hydrated, and avoid foods high in sugar. Consider engaging in light physical activities such as walking or yoga."
     )
-    
-    # Call Claude AI API
-    message = client.messages.create(
-        model="claude-3-5-sonnet-20240620",
-        max_tokens=300,
-        temperature=0.7,
-        system="You are a world-class nutritionist who specializes in diabetes management.",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    )
-    
-    raw_context = message.content
-    itinerary = raw_context[0].text
-    return itinerary
 
 # Function to create a PDF of the meal plan
 def create_pdf(meal_plan, name):
@@ -97,7 +79,8 @@ if st.sidebar.button("Generate Meal Plan"):
     if not name:
         st.sidebar.warning("Please enter your name to personalize your experience.")
     else:
-        meal_plan = get_meal_plan(api_key, name, fasting_sugar, pre_meal_sugar, post_meal_sugar, dietary_preferences, goal, exclusions)
+        # Since the API is disabled, use the mock meal plan function
+        meal_plan = get_meal_plan(name, fasting_sugar, pre_meal_sugar, post_meal_sugar, dietary_preferences, goal, exclusions)
         st.write(f"Hi {name}, based on your input, here is a personalized meal plan to help you achieve your goal:")
         st.markdown(meal_plan)
 
